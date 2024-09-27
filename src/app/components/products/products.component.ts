@@ -1,12 +1,14 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { CurrencyPipe } from '@angular/common';
+import { ShortDescriptionPipe } from '../../pipes/short-description.pipe';
 
 @Component({
   selector: 'app-products',
   standalone: true,
   imports: [
-    CurrencyPipe
+    CurrencyPipe,
+    ShortDescriptionPipe
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
