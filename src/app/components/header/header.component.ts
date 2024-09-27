@@ -38,7 +38,10 @@ retrieveCategories(){
 onChangeCategory(category_name:string){
 this.product_Service.getAllProducts().subscribe({next:(res:Product[])=>{
   
+if (category_name!='all') {
   this.product_Service.products.set(res.filter((product:Product)=>product.category===category_name))
+
+}else{this.product_Service.products.set(res)}
 }})
 }
 }
