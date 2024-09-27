@@ -15,4 +15,5 @@ export class CategoryService {
   getAllCategories(): Observable<any> {
     return this.http.get<any>(`${API_URL}/products/categories`); 
   }
+
 }

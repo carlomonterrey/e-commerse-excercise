@@ -2,6 +2,8 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { CurrencyPipe } from '@angular/common';
 import { ShortDescriptionPipe } from '../../pipes/short-description.pipe';
+import { Product } from '../../interfaces/interfaces';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -17,6 +19,7 @@ export class ProductsComponent implements OnInit {
 
 products=signal<any[]>([])
 product_service=inject(ProductService)
+cart_service=inject(CartService)
 
 ngOnInit(): void {
   this.retrieveProducts()
@@ -27,7 +30,14 @@ retrieveProducts(){
   this.product_service.getAllProducts().subscribe({next:(res)=>{
     console.log(res);
     
-    this.products.set(res)
-  }})
+this.product_service.products.set(res)  }})
+}
+addToCart(product:Product){
+this.cart_service.productsSignal.update((products:Product[])=>{
+  return [product,...products]
+  
+})
+console.log("cart",this.cart_service.productsSignal());
+
 }
 }
