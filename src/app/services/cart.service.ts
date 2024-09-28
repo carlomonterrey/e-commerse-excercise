@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 import { Product } from '../interfaces/interfaces';
 
 @Injectable({
@@ -6,7 +6,9 @@ import { Product } from '../interfaces/interfaces';
 })
 export class CartService {
   productsSignal = signal<Product[]>([]);
-
+productLenght=computed(()=>{
+  return this.productsSignal().reduce((sum, producto) => sum + producto.quantity, 0);
+})
   constructor() { }
 
   toAddRemoveProduct(product: Product,action:string) {
@@ -43,6 +45,9 @@ this.productsSignal.set(updatedProducts);
 
     }
     
+  }
+  cleanCart(){
+    this.productsSignal.set([])
   }
 
 

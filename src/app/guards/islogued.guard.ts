@@ -6,7 +6,7 @@ export const isloguedGuard: CanActivateFn = (route, state) => {
   const router=inject(Router)
   const user_service=inject(UserService)
 
-  if (user_service.isLoged()) {
+  if (localStorage.getItem('token')) {
     console.log(' logueado');
 
     return true

@@ -2,3 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+ background-color: #f7fafc; /* Color correspondiente a bg-gray-100 en Tailwind */
+ margin: 0; /* Elimina el margen predeterminado del body */
+ height: 100vh; /* Asegúrate de que el body ocupe toda la altura de la ventana */
+}

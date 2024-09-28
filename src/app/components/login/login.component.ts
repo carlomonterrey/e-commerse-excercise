@@ -45,10 +45,10 @@ this.showSpiner.set(true)
          }, 1000);
           },
           error: err => {
-            this.message.set({severity:'error',message:'An error was ocurred!'})
+            this.message.set({severity:'error',message:err.error})
             this.showSpiner.set(false)
 
-            console.log(err.error.message, 'error');
+            console.log( 'error',err.error);
   
         
           

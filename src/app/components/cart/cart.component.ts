@@ -5,6 +5,7 @@ import { ShortDescriptionPipe } from '../../pipes/short-description.pipe';
 import { Product } from '../../interfaces/interfaces';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-cart',
@@ -26,5 +27,11 @@ onDeleteProduct(product:Product){
 }
 onAddProduct(product:Product){
   this.cart_Service.toAddRemoveProduct(product,'add')
+ }
+ onSubmit(){
+  setTimeout(() => {
+    swal("Great!", "The sale was successfully!", "success");
+this.cart_Service.cleanCart()
+  }, 300);
  }
 }
