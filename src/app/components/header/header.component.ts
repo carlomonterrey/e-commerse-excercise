@@ -37,6 +37,8 @@ retrieveCategories(){
   }})
 }
 onChangeCategory(category_name:string){
+  console.log('1233');
+  
 this.product_Service.getAllProducts().subscribe({next:(res:Product[])=>{
   
 if (category_name!='all') {
