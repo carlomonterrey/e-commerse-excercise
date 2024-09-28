@@ -5,7 +5,7 @@ import { ShortDescriptionPipe } from '../../pipes/short-description.pipe';
 import { Product } from '../../interfaces/interfaces';
 import { FormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart',
@@ -30,8 +30,11 @@ onAddProduct(product:Product){
  }
  onSubmit(){
   setTimeout(() => {
-    swal("Great!", "The sale was successfully!", "success");
-this.cart_Service.cleanCart()
+    Swal.fire({
+      title: "Successfully",
+      text: "The sale was successfully!",
+      icon: "success"
+    });this.cart_Service.cleanCart()
   }, 300);
  }
 }
