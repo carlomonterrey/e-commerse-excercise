@@ -9,19 +9,41 @@ export class CartService {
 
   constructor() { }
 
-  toAddProduct(product: Product) {
+  toAddRemoveProduct(product: Product,action:string) {
     const index = this.productsSignal().findIndex((item) => item.id === product.id);
     if (index !== -1) {
+    
       const updatedProducts = [...this.productsSignal()];
-      updatedProducts[index] = { ...updatedProducts[index], quantity: updatedProducts[index].quantity + 1 };
-      this.productsSignal.set(updatedProducts);
+      if (action==='add') {
+        updatedProducts[index] = { ...updatedProducts[index], quantity: updatedProducts[index].quantity + 1 };
+console.log(updatedProducts[index]);
+this.productsSignal.set(updatedProducts);
+
+      }else{
+        if (updatedProducts[index].quantity>1 ) {
+          updatedProducts[index] = { ...updatedProducts[index], quantity: updatedProducts[index].quantity - 1 };
+          this.productsSignal.set(updatedProducts);
+
+        }
+        else{
+          const updatedProducts = this.productsSignal().filter((item) => item.id !== product.id);
+          this.productsSignal.set(updatedProducts);
+        }
+
+      }
+
     } else {
-      this.productsSignal.set([...this.productsSignal(), { ...product, quantity: 1 }]);
+      if (action==='add') {
+        this.productsSignal.set([...this.productsSignal(), { ...product, quantity: 1 }]);
+
+      }else{
+        const updatedProducts = this.productsSignal().filter((item) => item.id !== product.id);
+        this.productsSignal.set(updatedProducts);
+      }
+
     }
+    
   }
 
-  toRemoveProduct(productId: number) {
-    const updatedProducts = this.productsSignal().filter((item) => item.id !== productId);
-    this.productsSignal.set(updatedProducts);
-  }
+
 }

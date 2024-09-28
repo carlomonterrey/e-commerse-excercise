@@ -33,10 +33,7 @@ retrieveProducts(){
 this.product_service.products.set(res)  }})
 }
 addToCart(product:Product){
-this.cart_service.productsSignal.update((products:Product[])=>{
-  return [product,...products]
-  
-})
+ this.cart_service.toAddRemoveProduct(product,'add')
 console.log("cart",this.cart_service.productsSignal());
 
 }
