@@ -9,9 +9,8 @@ export class ClickLoggerDirective {
   constructor() { }
 
 
-  @HostListener('click', ['$event']) // Escucha el evento de clic
+  @HostListener('click', ['$event']) 
   onClick(event: Event): void {
-    console.log('Elemento clickeado:', event); // Muestra un mensaje en la consola
-    // Aquí puedes realizar cualquier otra acción que desees
+    console.log('Elemento clickeado:', event); 
   }
 }

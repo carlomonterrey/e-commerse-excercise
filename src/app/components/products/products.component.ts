@@ -5,6 +5,7 @@ import { ShortDescriptionPipe } from '../../pipes/short-description.pipe';
 import { Product } from '../../interfaces/interfaces';
 import { CartService } from '../../services/cart.service';
 import { AppService } from '../../app.service';
+import { ClickLoggerDirective } from '../../click-logger.directive';
 
 @Component({
   selector: 'app-products',
@@ -12,7 +13,8 @@ import { AppService } from '../../app.service';
   imports: [
     CurrencyPipe,
     ShortDescriptionPipe,
-    CommonModule
+    CommonModule,
+    ClickLoggerDirective
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
