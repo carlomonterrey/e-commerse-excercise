@@ -14,3 +14,7 @@ export interface Product {
  rating: Rating;
  quantity:number
 }
+export interface UserLogin{
+ username:string
+ password:string
+}

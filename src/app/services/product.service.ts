@@ -15,10 +15,10 @@ export class ProductService {
   }
 
   getAllProducts(): Observable<any> {
-    return this.http.get<any>(`${API_URL}/products`); 
+    return this.http.get<any>(`${API_URL}products`); 
   }
   getByCategory(category_name:string): Observable<any> {
 
-    return this.http.get<any>(`${API_URL}/products/categories/${category_name}`); 
+    return this.http.get<any>(`${API_URL}products/categories/${category_name}`); 
   }
 }
