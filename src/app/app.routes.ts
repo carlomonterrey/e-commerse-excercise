@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { isloguedGuard } from './guards/islogued.guard';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
  { path: '', redirectTo: '/login', pathMatch: 'full',    title: 'Senfima',
@@ -17,5 +18,7 @@ children:[
 }
 ]
  },
+ { path: '**', component: LoginComponent },  
+
 
 ];
