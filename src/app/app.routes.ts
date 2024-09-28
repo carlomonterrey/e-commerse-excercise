@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { isloguedGuard } from './guards/islogued.guard';
 
 export const routes: Routes = [
  { path: '', redirectTo: '/login', pathMatch: 'full',    title: 'Senfima',
@@ -9,6 +10,7 @@ export const routes: Routes = [
 loadComponent:()=>import('./components/login/login.component').then(c=>c.LoginComponent)
  },
 { path: 'home',
+canActivate:[isloguedGuard],
 loadComponent:()=>import('./components/home/home.component').then(c=>c.HomeComponent),
 children:[
  {path: '',loadComponent:()=>import('./components/products/products.component').then(c=>c.ProductsComponent),

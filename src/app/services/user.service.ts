@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { UserLogin } from '../interfaces/interfaces';
 import { Observable } from 'rxjs';
 import { API_URL } from '../app.service';
@@ -8,7 +8,7 @@ import { API_URL } from '../app.service';
   providedIn: 'root'
 })
 export class UserService {
-
+  isLoged=signal(false)
   constructor(private http:HttpClient) { }
 
   login(user: UserLogin): Observable<any> {
@@ -19,5 +19,6 @@ export class UserService {
   saveToken(token:string){
     localStorage.removeItem('token'); 
     localStorage.setItem('token', token); 
+    this.isLoged.set(true)
   }
 }
