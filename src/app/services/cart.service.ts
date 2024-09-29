@@ -1,54 +1,81 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed } from '@angular/core';
 import { Product } from '../interfaces/interfaces';
+import { patchState, signalState } from '@ngrx/signals';
+
+export type ProductsState = {
+  selectedProducts: Product[];
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  productsSignal = signal<Product[]>([]);
-productLenght=computed(()=>{
-  return this.productsSignal().reduce((sum, producto) => sum + producto.quantity, 0);
-})
+  public readonly productsState = signalState<ProductsState>({
+    selectedProducts: [],
+  });
+
+  public readonly productCounter = computed(() => {
+    return this.productsState().selectedProducts.reduce((sum, product) => sum + product.quantity, 0);
+  });
+
   constructor() { }
 
-  toAddRemoveProduct(product: Product,action:string) {
-    const index = this.productsSignal().findIndex((item) => item.id === product.id);
-    if (index !== -1) {
-    
-      const updatedProducts = [...this.productsSignal()];
-      if (action==='add') {
-        updatedProducts[index] = { ...updatedProducts[index], quantity: updatedProducts[index].quantity + 1 };
-console.log(updatedProducts[index]);
-this.productsSignal.set(updatedProducts);
+  public toAddRemoveProduct(product: Product, action: string) {
+    const selectedProducts = this.productsState().selectedProducts;
+    const index = selectedProducts.findIndex(item => item.id === product.id);
 
-      }else{
-        if (updatedProducts[index].quantity>1 ) {
-          updatedProducts[index] = { ...updatedProducts[index], quantity: updatedProducts[index].quantity - 1 };
-          this.productsSignal.set(updatedProducts);
-
-        }
-        else{
-          const updatedProducts = this.productsSignal().filter((item) => item.id !== product.id);
-          this.productsSignal.set(updatedProducts);
-        }
-
+    if (action === 'add') {
+      if (index !== -1) {
+        this.add(product);
+      } else {
+        patchState(this.productsState, {
+          selectedProducts: [...selectedProducts, { ...product, quantity: 1 }],
+        });
       }
-
     } else {
-      if (action==='add') {
-        this.productsSignal.set([...this.productsSignal(), { ...product, quantity: 1 }]);
-
-      }else{
-        const updatedProducts = this.productsSignal().filter((item) => item.id !== product.id);
-        this.productsSignal.set(updatedProducts);
+      if (index !== -1) {
+        this.remove(product);
       }
-
     }
+  }
+
+  public add(product: Product): void {
+    const selectedProducts = this.productsState().selectedProducts;
+    const existingProduct = selectedProducts.find(item => item.id === product.id);
     
-  }
-  cleanCart(){
-    this.productsSignal.set([])
+    if (existingProduct) {
+      patchState(this.productsState, {
+        selectedProducts: selectedProducts.map(item =>
+          item.id === product.id ? { ...item, quantity: existingProduct.quantity + 1 } : item
+        ),
+      });
+    }
   }
 
+  public remove(product: Product): void {
+    const selectedProducts = this.productsState().selectedProducts;
+    const index = selectedProducts.findIndex(item => item.id === product.id);
 
+    if (index !== -1) {
+      const currentProduct = selectedProducts[index];
+
+      if (currentProduct.quantity > 1) {
+        patchState(this.productsState, {
+          selectedProducts: selectedProducts.map(item =>
+            item.id === product.id ? { ...item, quantity: currentProduct.quantity - 1 } : item
+          ),
+        });
+      } else {
+        patchState(this.productsState, {
+          selectedProducts: selectedProducts.filter(item => item.id !== product.id),
+        });
+      }
+    }
+  }
+
+  public cleanCart() {
+    patchState(this.productsState, {
+      selectedProducts: [],
+    });
+  }
 }
