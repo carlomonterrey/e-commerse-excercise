@@ -32,12 +32,10 @@ export class HeaderComponent implements OnInit {
 retrieveCategories(){
   this.category_Service.getAllCategories().subscribe({next:(res)=>{
     this.categories.set(res)
-    console.log("respuesta ",res);
     
   }})
 }
 onChangeCategory(category_name:string){
-  console.log('1233');
   
 this.product_Service.getAllProducts().subscribe({next:(res:Product[])=>{
   
